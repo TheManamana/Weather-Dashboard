@@ -33,9 +33,14 @@ async function searchCity(city) {
 // searchCity('salem');
 
 
-var butt = $('#button-addon2')
 
 
+
+$('#searchText').on("keyup", function(e) {
+    if (e.keyCode == 13) {
+        getText();
+    }
+});
 
 function getText(){
     searchCity($('#searchText').val());
