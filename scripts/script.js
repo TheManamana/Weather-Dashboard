@@ -1,11 +1,20 @@
 var body = $('#body');
+var buttonDivEl = $('#previousButtons');
 
 
 var apiKey = '4d63ba9d93efddcbcaf8047f7d2ec8b0';
 
 var city = 'salt lake city';
 
-var test ='';
+var previousSearchArray = [];
+
+var currentSearch;
+
+if (JSON.parse(localStorage.getItem("previousSearch")) !== null){
+previousSearchArray = JSON.parse(localStorage.getItem("previousSearch"));
+}
+
+// previousSearchArray = ['Los Angeles', 'San Diego', 'Salt Lake City'];
 
 
 
@@ -38,11 +47,67 @@ async function searchCity(city) {
 
 $('#searchText').on("keyup", function(e) {
     if (e.keyCode == 13) {
-        getText();
+        searchRequest();
     }
 });
 
-function getText(){
-    searchCity($('#searchText').val());
+function searchRequest(){
+    currentSearch = $('#searchText').val();
+    searchCity(currentSearch);
+    updatePreviousSearchArray();
+    populatePrevious();
 
 }
+
+function updatePreviousSearchArray(){
+    var saveSearch = true;
+
+    previousSearchArray.forEach(search => {
+
+        if(search === currentSearch){
+            saveSearch = false;
+        }
+        
+    });
+
+    if(saveSearch===true){
+        previousSearchArray.unshift(currentSearch);
+    }
+
+    if(previousSearchArray.length>10){
+        previousSearchArray.pop();
+    }
+
+
+    localStorage.setItem("previousSearch", JSON.stringify(previousSearchArray));
+}
+
+function deleteButtons(){
+    buttonDivEl.empty();
+}
+
+function populatePrevious(){
+    deleteButtons();
+
+    for (let i = 0; i < previousSearchArray.length; i++) {
+        
+        var newButton = $('<button>');
+        newButton.attr('class', 'btn btn-secondary');
+        newButton.attr('type', 'button');
+        newButton.text(previousSearchArray[i]);
+
+        newButton.attr('onclick',`searchCity("${previousSearchArray[i]}")`);
+
+        buttonDivEl.append(newButton);
+        
+    }
+}
+
+
+populatePrevious();
+
+
+// deleteButtons();
+
+// $("div").remove(".btn");
+
