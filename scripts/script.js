@@ -5,6 +5,10 @@ var apiKey = '4d63ba9d93efddcbcaf8047f7d2ec8b0';
 
 var city = 'salt lake city';
 
+var test ='';
+
+
+
 async function searchCity(city) {
     
 
@@ -28,3 +32,12 @@ async function searchCity(city) {
 // searchCity('sacramento');
 // searchCity('salem');
 
+
+var butt = $('#button-addon2')
+
+
+
+function getText(){
+    searchCity($('#searchText').val());
+
+}
