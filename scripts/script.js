@@ -34,12 +34,40 @@ async function searchCity(city) {
             if (response.status === 404) {
 
                 console.log("City not found");
+                var alertEl = $('#leftSide');
+                var alert = $('<div>')
+                alert.attr('class', 'alert alert-danger');
+                alert.attr('role', 'alert');
+                alert.attr('id', 'test');
+                alert.text(`You didn't type a valid city. Try again`);
+                alertEl.append(alert);
+
+                setInterval(function () {
+                    if (alert.css('opacity') < 0.1) {
+                        alert.remove();
+                        clearInterval();
+
+                    }
+                    else {
+                        alert.css('opacity', `${alert.css('opacity') - .1}`);
+                    }
+                }, 150);
+
+                // setTimeout(function () {
+
+                // }, 1250);
+
+                // alertEl.alert('dispose');
+                // var testEl = $('#test');
+                // testEl.alert('dispose');
+                // $('.alert').alert('close');
             }
             return response.json();
         })
         .then(function (data) {
             console.log(data);
             updateCard(data.name, data.main.temp, data.wind.speed, data.main.humidity, data.weather[0].description);
+            uv(data.coord.lat, data.coord.lon);
             searchCity5Day(data.name)
         });
 }
@@ -60,18 +88,18 @@ async function searchCity5Day(city) {
             console.log(data);
             console.log(data.list[4].dt_txt.split(' ')[0]);
             for (let i = 0; i < 5; i++) {
-                if (i ===0) {
-                    update5Day(i, data.list[4].dt_txt.split(' ')[0], data.list[4].main.temp,data.list[4].wind.speed,data.list[4].main.humidity);
-                } else if (i ===1) {
-                    update5Day(i, data.list[12].dt_txt.split(' ')[0], data.list[12].main.temp,data.list[12].wind.speed,data.list[12].main.humidity);
-                } else if (i ===2) {
-                    update5Day(i, data.list[20].dt_txt.split(' ')[0], data.list[20].main.temp,data.list[20].wind.speed,data.list[20].main.humidity);
-                } else if (i ===3) {
-                    update5Day(i, data.list[28].dt_txt.split(' ')[0], data.list[28].main.temp,data.list[28].wind.speed,data.list[28].main.humidity);
-                } else if (i ===4) {
-                    update5Day(i, data.list[36].dt_txt.split(' ')[0], data.list[36].main.temp,data.list[36].wind.speed,data.list[36].main.humidity);
+                if (i === 0) {
+                    update5Day(i, data.list[4].dt_txt.split(' ')[0], data.list[4].main.temp, data.list[4].wind.speed, data.list[4].main.humidity);
+                } else if (i === 1) {
+                    update5Day(i, data.list[12].dt_txt.split(' ')[0], data.list[12].main.temp, data.list[12].wind.speed, data.list[12].main.humidity);
+                } else if (i === 2) {
+                    update5Day(i, data.list[20].dt_txt.split(' ')[0], data.list[20].main.temp, data.list[20].wind.speed, data.list[20].main.humidity);
+                } else if (i === 3) {
+                    update5Day(i, data.list[28].dt_txt.split(' ')[0], data.list[28].main.temp, data.list[28].wind.speed, data.list[28].main.humidity);
+                } else if (i === 4) {
+                    update5Day(i, data.list[36].dt_txt.split(' ')[0], data.list[36].main.temp, data.list[36].wind.speed, data.list[36].main.humidity);
                 }
-                
+
 
             }
 
@@ -156,7 +184,7 @@ function updateCard(city, temp, wind, humidity, wDesc) {
     cardTempEl.text(`Temp: ${temp}°F`)
     cardWindEl.text(`Wind: ${wind} MPH`)
     cardHumidityEl.text(`Humidity: ${humidity}%`)
-    cardUvEl.text(`Weather Description: ${wDesc}`)
+
 
 }
 
@@ -173,8 +201,27 @@ function update5Day(index, date, temp, wind, humidity) {
 
 }
 
+async function uv(lat, lon) {
+    var requestUrl = `https://api.openweathermap.org/data/2.5/uvi?lat=${lat}&lon=${lon}&appid=${apiKey}`
+
+    await fetch(requestUrl)
+        .then(function (response) {
+            if (response.status === 404) {
+
+                console.log("City not found");
+            }
+            return response.json();
+        })
+        .then(function (data) {
+            console.log(data);
+            cardUvEl.text(`Uv Index: ${data.value}`)
+
+        });
+}
+
 // updateCard("Atlanta", 74.01, 6.67, 46, .47);
 populatePrevious();
+searchCity("salt lake city");
 
 // searchCity5Day('salt lake city');
 // deleteButtons();
