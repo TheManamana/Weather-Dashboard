@@ -74,7 +74,7 @@ async function searchCity(city) {
 async function searchCity5Day(city) {
 
 
-    requestUrl = `http://api.openweathermap.org/data/2.5/forecast?q=${city.split(' ').join('+')},US&appid=${apiKey}&units=imperial`;
+    requestUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city.split(' ').join('+')},US&appid=${apiKey}&units=imperial`;
 
     await fetch(requestUrl)
         .then(function (response) {
