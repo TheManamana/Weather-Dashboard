@@ -64,7 +64,7 @@ async function searchCity(city) {
         })
         // Updates main Card
         .then(function (data) {
-            console.log(data);
+            
             updateCard(data.name, data.main.temp, data.wind.speed, data.main.humidity, data.weather[0].description);
             // Calls uv function which calls uv api
             uv(data.coord.lat, data.coord.lon);
@@ -88,7 +88,7 @@ async function searchCity5Day(city) {
             return response.json();
         })
         .then(function (data) {
-            console.log(data);
+            
             // Calls card creator for the next 5 days of weather. Index is used to find the right card element. Uses info from noon each day
             for (let i = 0; i < 5; i++) {
                 if (i === 0) {
@@ -121,7 +121,7 @@ async function uv(lat, lon) {
             return response.json();
         })
         .then(function (data) {
-            console.log(data);
+            
             // Updates uv info.
             cardUvEl.text(`Uv Index: ${data.value}`)
 
