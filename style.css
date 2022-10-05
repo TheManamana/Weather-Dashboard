@@ -1,0 +1,20 @@
+
+
+
+.fiveCard{
+    opacity: .95;
+
+}
+
+.fiveCard:hover {
+    opacity:1;
+
+}
+
+.display-4{
+    font-family: 'Acme', sans-serif;
+    font-size: 100px;
+}
+.card-title{
+    font-family: 'Acme', sans-serif;
+}

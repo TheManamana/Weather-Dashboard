@@ -86,7 +86,7 @@ async function searchCity5Day(city) {
         })
         .then(function (data) {
             console.log(data);
-            console.log(data.list[4].dt_txt.split(' ')[0]);
+            
             for (let i = 0; i < 5; i++) {
                 if (i === 0) {
                     update5Day(i, data.list[4].dt_txt.split(' ')[0], data.list[4].main.temp, data.list[4].wind.speed, data.list[4].main.humidity);
